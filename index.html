@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Розклад пар - ЛАМ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 16px;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #2d3748;
+        }
+
+        .days-nav {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .days-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .day-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .day-btn.active {
+            background: white;
+            border-color: #667eea;
+            color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .day-content {
+            display: none;
+        }
+
+        .day-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .class-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .class-time {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .class-card.current .class-time {
+            color: #48bb78;
+        }
+
+        .class-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .class-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .status-badge.current {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-badge.upcoming {
+            background: #bee3f8;
+            color: #2c5282;
+        }
+
+        .empty-state {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 40px 20px;
+            text-align: center;
+            color: #718096;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .class-name {
+                font-size: 16px;
+            }
+
+            .day-btn {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Розклад пар</h1>
+        </div>
+
+        <div class="days-nav">
+            <button class="day-btn active" data-day="monday">Понеділок</button>
+            <button class="day-btn" data-day="tuesday">Вівторок</button>
+            <button class="day-btn" data-day="wednesday">Середа</button>
+            <button class="day-btn" data-day="thursday">Четвер</button>
+            <button class="day-btn" data-day="friday">П'ятниця</button>
+        </div>
+
+        <div id="monday" class="day-content active">
+            <div class="class-card" data-start="09:00" data-end="10:35">
+                <div class="class-time">⏰ 09:00 - 10:35 (1 пара)</div>
+                <div class="class-name">Поліграфічні технології</div>
+                <div class="class-details">
+                    <div class="detail-item">
+                        <span class="icon">📍</span>
+                        <span>Аудиторія 606</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="icon">👨‍🏫</span>
+                        <span>М. Царик</span>
+                    </div>
+                </div>
+            </div>
+            <div class="class-card" data-start="10:50" data-end="14:40">
+                <div class="class-time">⏰ 10:50 - 14:40 (2-3 пара)</div>
+                <div class="class-name">Дизайн книги</div>
+                <div class="class-details">
+                    <div class="detail-item">
+                        <span class="icon">📍</span>
+                        <span>Аудиторія 608</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="icon">👨‍🏫</span>
+                        <span>Г. Шевчук</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tuesday" class="day-content">
+            <div class="class-card" data-start="09:00" data-end="10:35">
+                <div class="class-time">⏰ 09:00 - 10:35 (1 пара)</div>
+                <div class="class-name">Менеджмент мистецтва</div>
+                <div class="class-details">
+                    <div class="detail-item">
+                        <span class="icon">📍</span>
+                        <span>Аудиторія 3</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="icon">👨‍🏫</span>
+                        <span>У. Щурко</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="wednesday" class="day-content">
+            <div class="class-card" data-start="09:00" data-end="12:25">
+                <div class="class-time">⏰ 09:00 - 12:25 (1-2 пара)</div>
+                <div class="class-name">Моушн-дизайн</div>
+                <div class="class-details">
+                    <div class="detail-item">
+                        <span class="icon">📍</span>
+                        <span>Аудиторія 610</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="icon">👨‍🏫</span>
+                        <span>Ю. Кухлевський</span>
+                    </div>
+                </div>
+            </div>
+            <div class="class-card" data-start="13:05" data-end="16:25">
+                <div class="class-time">⏰ 13:05 - 16:25 (3-4 пара)</div>
+                <div class="class-name">Живопис</div>
+                <div class="class-details">
+                    <div class="detail-item">
+                        <span class="icon">📍</span>
+                        <span>Аудиторія 604</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="icon">👨‍🏫</span>
+                        <span>Г. Новоженець</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="thursday" class="day-content">
+            <div class="class-card" data-start="09:00" data-end="10:35">
+                <div class="class-time">⏰ 09:00 - 10:35 (1 пара)</div>
+                <div class="class-name">Історія культури</div>
+                <div class="class-details">
+                    <div class="detail-item">
+                        <span class="icon">💻</span>
+                        <span>Онлайн</span>
+                    </div>
+                </div>
+            </div>
+            <div class="class-card" data-start="10:50" data-end="14:40">
+                <div class="class-time">⏰ 10:50 - 14:40 (2-3 пара)</div>
+                <div class="class-name">Дизайн взаємодії</div>
+                <div class="class-details">
+                    <div class="detail-item">
+                        <span class="icon">📍</span>
+                        <span>Аудиторія 606</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="icon">👨‍🏫</span>
+                        <span>М. Білий, Д. Козицький</span>
+                    </div>
+                </div>
+            </div>
+            <div class="class-card" data-start="16:35" data-end="18:10">
+                <div class="class-time">⏰ 16:35 - 18:10 (5 пара)</div>
+                <div class="class-name">Англійська мова</div>
+                <div class="class-details">
+                    <div class="detail-item">
+                        <span class="icon">📍</span>
+                        <span>В гуртожитку</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="friday" class="day-content">
+            <div class="class-card" data-start="09:00" data-end="10:35">
+                <div class="class-time">⏰ 09:00 - 10:35 (1 пара)</div>
+                <div class="class-name">Поліграфічні технології</div>
+                <div class="class-details">
+                    <div class="detail-item">
+                        <span class="icon">📍</span>
+                        <span>Аудиторія 606</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="icon">👨‍🏫</span>
+                        <span>М. Царик</span>
+                    </div>
+                </div>
+            </div>
+            <div class="class-card" data-start="10:50" data-end="14:40">
+                <div class="class-time">⏰ 10:50 - 14:40 (2-3 пара)</div>
+                <div class="class-name">Проектування</div>
+                <div class="class-details">
+                    <div class="detail-item">
+                        <span class="icon">📍</span>
+                        <span>Аудиторія 606</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="icon">👨‍🏫</span>
+                        <span>О. Топольницький</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dayBtns = document.querySelectorAll('.day-btn');
+        const dayContents = document.querySelectorAll('.day-content');
+        
+        dayBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const day = btn.dataset.day;
+                
+                dayBtns.forEach(b => b.classList.remove('active'));
+                dayContents.forEach(c => c.classList.remove('active'));
+                
+                btn.classList.add('active');
+                document.getElementById(day).classList.add('active');
+                
+                updateClassStatus();
+            });
+        });
+
+        function updateClassStatus() {
+            const now = new Date();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            
+            document.querySelectorAll('.class-card').forEach(card => {
+                const startTime = card.dataset.start.split(':');
+                const endTime = card.dataset.end.split(':');
+                const start = parseInt(startTime[0]) * 60 + parseInt(startTime[1]);
+                const end = parseInt(endTime[0]) * 60 + parseInt(endTime[1]);
+                
+                card.classList.remove('current', 'past');
+                const existingBadge = card.querySelector('.status-badge');
+                if (existingBadge) existingBadge.remove();
+                
+                if (currentTime >= start && currentTime <= end) {
+                    card.classList.add('current');
+                } else if (currentTime > end) {
+                    card.classList.add('past');
+                } else if (currentTime < start && start - currentTime < 60) {
+                    const badge = document.createElement('span');
+                    badge.className = 'status-badge upcoming';
+                    badge.textContent = '⏱ Скоро почнеться';
+                    card.appendChild(badge);
+                }
+            });
+        }
+
+        updateClassStatus();
+        setInterval(updateClassStatus, 60000);
+
+        const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const today = dayNames[new Date().getDay()];
+        const todayBtn = document.querySelector(`[data-day="${today}"]`);
+        if (todayBtn) todayBtn.click();
+    </script>
+</body>
+</html>
