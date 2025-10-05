@@ -108,6 +108,28 @@
             border-left: 4px solid #667eea;
         }
 
+        .subgroup-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .subgroup {
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 12px;
+            padding: 12px;
+            border-left: 3px solid #667eea;
+        }
+
+        .subgroup-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
         .class-time {
             display: flex;
             align-items: center;
@@ -240,15 +262,24 @@
         <div id="tuesday" class="day-content">
             <div class="class-card" data-start="09:00" data-end="10:35">
                 <div class="class-time">⏰ 09:00 - 10:35 (1 пара)</div>
-                <div class="class-name">Менеджмент мистецтва</div>
-                <div class="class-details">
-                    <div class="detail-item">
-                        <span class="icon">📍</span>
-                        <span>Аудиторія 3</span>
+                <div class="subgroup-container">
+                    <div class="subgroup">
+                        <div class="subgroup-label">Підгрупа 1</div>
+                        <div class="class-name">Менеджмент мистецтва</div>
+                        <div class="class-details">
+                            <div class="detail-item">
+                                <span class="icon">📍</span>
+                                <span>Аудиторія 3</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="icon">👨‍🏫</span>
+                                <span>У. Щурко</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="detail-item">
-                        <span class="icon">👨‍🏫</span>
-                        <span>У. Щурко</span>
+                    <div class="subgroup">
+                        <div class="subgroup-label">Підгрупа 2</div>
+                        <div class="class-name">3D Моделювання</div>
                     </div>
                 </div>
             </div>
@@ -271,15 +302,24 @@
             </div>
             <div class="class-card" data-start="13:05" data-end="16:25">
                 <div class="class-time">⏰ 13:05 - 16:25 (3-4 пара)</div>
-                <div class="class-name">Живопис</div>
-                <div class="class-details">
-                    <div class="detail-item">
-                        <span class="icon">📍</span>
-                        <span>Аудиторія 604</span>
+                <div class="subgroup-container">
+                    <div class="subgroup">
+                        <div class="subgroup-label">Підгрупа 1</div>
+                        <div class="class-name">Живопис</div>
+                        <div class="class-details">
+                            <div class="detail-item">
+                                <span class="icon">📍</span>
+                                <span>Аудиторія 604</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="icon">👨‍🏫</span>
+                                <span>Г. Новоженець</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="detail-item">
-                        <span class="icon">👨‍🏫</span>
-                        <span>Г. Новоженець</span>
+                    <div class="subgroup">
+                        <div class="subgroup-label">Підгрупа 2</div>
+                        <div class="class-name">Рисунок</div>
                     </div>
                 </div>
             </div>
