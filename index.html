@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Розклад пар - ЛАМ</title>
+    <title>Розклад пар - ЛНАМ</title>
     <style>
         * {
             margin: 0;
@@ -111,10 +111,6 @@
             margin-bottom: 8px;
         }
 
-        .class-card.current .class-time {
-            color: #48bb78;
-        }
-
         .class-name {
             font-size: 18px;
             font-weight: 700;
@@ -149,11 +145,6 @@
             font-size: 12px;
             font-weight: 600;
             margin-top: 8px;
-        }
-
-        .status-badge.current {
-            background: #c6f6d5;
-            color: #22543d;
         }
 
         .status-badge.upcoming {
@@ -369,40 +360,8 @@
                 
                 btn.classList.add('active');
                 document.getElementById(day).classList.add('active');
-                
-                updateClassStatus();
             });
         });
-
-        function updateClassStatus() {
-            const now = new Date();
-            const currentTime = now.getHours() * 60 + now.getMinutes();
-            
-            document.querySelectorAll('.class-card').forEach(card => {
-                const startTime = card.dataset.start.split(':');
-                const endTime = card.dataset.end.split(':');
-                const start = parseInt(startTime[0]) * 60 + parseInt(startTime[1]);
-                const end = parseInt(endTime[0]) * 60 + parseInt(endTime[1]);
-                
-                card.classList.remove('current', 'past');
-                const existingBadge = card.querySelector('.status-badge');
-                if (existingBadge) existingBadge.remove();
-                
-                if (currentTime >= start && currentTime <= end) {
-                    card.classList.add('current');
-                } else if (currentTime > end) {
-                    card.classList.add('past');
-                } else if (currentTime < start && start - currentTime < 60) {
-                    const badge = document.createElement('span');
-                    badge.className = 'status-badge upcoming';
-                    badge.textContent = '⏱ Скоро почнеться';
-                    card.appendChild(badge);
-                }
-            });
-        }
-
-        updateClassStatus();
-        setInterval(updateClassStatus, 60000);
 
         const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
         const today = dayNames[new Date().getDay()];
