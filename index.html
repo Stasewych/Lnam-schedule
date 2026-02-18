@@ -1,419 +1,1211 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Розклад пар - ЛНАМ</title>
-    <link rel="icon" type="image/png" href="https://i.ibb.co/DH9x4mhh/images.png">
-    <link rel="apple-touch-icon" href="https://i.ibb.co/DH9x4mhh/images.png">
-    <meta name="theme-color" content="#667eea">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Розклад ЛНАМ">
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogItCg0L7Qt9C60LvQsNC0INC/0LDRgCAtINCb0JDQnCIsCiAgInNob3J0X25hbWUiOiAi0KDQvtC30LrQu9Cw0LQg0JvQkNCcIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiM2NjdlZWEiLAogICJ0aGVtZV9jb2xvciI6ICIjNjY3ZWVhIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9pLmliYi5jby9ESDl4NG1oaC9pbWFnZXMucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9CiAgXQp9">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+<title>Розклад — Група 32</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
+<style>
+/* ===================================================================
+   APPLE LIQUID GLASS DESIGN SYSTEM
+   iOS 26 / macOS Tahoe — Mobile-First Schedule App
+   Group 32 · ЛНАМ · Graphic Design
+   =================================================================== */
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 16px;
-            padding-bottom: 80px;
-        }
+:root {
+  /* Glass Material */
+  --glass-blur: 16px;
+  --glass-saturation: 1.4;
+  --glass-bg: rgba(255,255,255,0.30);
+  --glass-bg-thin: rgba(255,255,255,0.15);
+  --glass-border: rgba(255,255,255,0.30);
+  --glass-shadow-outer: rgba(0,0,0,0.06);
+  --glass-highlight: rgba(255,255,255,0.40);
+  --glass-radius: 24px;
+  --glass-radius-inner: 16px;
+  --glass-radius-sm: 14px;
+  --glass-radius-xs: 12px;
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
+  /* Typography — SF Pro scale */
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif;
+  --large-title: 700 34px/1.12 var(--font);
+  --title2: 700 22px/1.27 var(--font);
+  --title3: 600 20px/1.25 var(--font);
+  --headline: 600 17px/1.29 var(--font);
+  --body: 400 17px/1.47 var(--font);
+  --callout: 400 16px/1.38 var(--font);
+  --subhead: 400 15px/1.33 var(--font);
+  --footnote: 400 13px/1.38 var(--font);
+  --caption1: 400 12px/1.33 var(--font);
+  --caption2: 400 11px/1.27 var(--font);
 
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
+  /* Colors — iOS 26 system */
+  --text-primary: rgba(0,0,0,0.85);
+  --text-secondary: rgba(0,0,0,0.50);
+  --text-tertiary: rgba(0,0,0,0.30);
+  --fill-primary: rgba(120,120,128,0.20);
+  --fill-secondary: rgba(120,120,128,0.16);
+  --fill-tertiary: rgba(120,120,128,0.12);
+  --fill-quaternary: rgba(120,120,128,0.08);
+  --separator: rgba(60,60,67,0.12);
+  --bg-primary: #f2f2f7;
+  --bg-grouped: #f2f2f7;
 
-        h1 {
-            font-size: 24px;
-            color: #2d3748;
-        }
+  --system-blue: #007AFF;
+  --system-green: #34C759;
+  --system-indigo: #5856D6;
+  --system-orange: #FF9500;
+  --system-pink: #FF2D55;
+  --system-purple: #AF52DE;
+  --system-red: #FF3B30;
+  --system-teal: #5AC8FA;
+  --system-yellow: #FFCC00;
 
-        .days-nav {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            -webkit-overflow-scrolling: touch;
-        }
+  /* Spring easing */
+  --spring: cubic-bezier(0.4, 0, 0.2, 1);
+  --spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --spring-snappy: cubic-bezier(0.2, 0, 0, 1);
 
-        .days-nav::-webkit-scrollbar {
-            display: none;
-        }
+  /* Spacing — 8pt grid */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
 
-        .day-btn {
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            padding: 12px 20px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #4a5568;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
+  /* Safe areas */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
 
-        .day-btn.active {
-            background: white;
-            border-color: #667eea;
-            color: #667eea;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
+/* ===== DARK MODE ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --glass-bg: rgba(255,255,255,0.08);
+    --glass-bg-thin: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.10);
+    --glass-shadow-outer: rgba(0,0,0,0.30);
+    --glass-highlight: rgba(255,255,255,0.08);
+    --text-primary: rgba(255,255,255,0.90);
+    --text-secondary: rgba(255,255,255,0.55);
+    --text-tertiary: rgba(255,255,255,0.30);
+    --fill-primary: rgba(120,120,128,0.36);
+    --fill-secondary: rgba(120,120,128,0.32);
+    --fill-tertiary: rgba(120,120,128,0.24);
+    --fill-quaternary: rgba(120,120,128,0.18);
+    --separator: rgba(84,84,88,0.36);
+    --bg-primary: #000000;
+    --bg-grouped: #000000;
+  }
+}
 
-        .day-content {
-            display: none;
-        }
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-contrast: high) {
+  :root {
+    --glass-bg: rgba(255,255,255,0.60);
+    --glass-border: rgba(0,0,0,0.30);
+    --text-primary: rgba(0,0,0,1);
+    --text-secondary: rgba(0,0,0,0.70);
+  }
+}
 
-        .day-content.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-bg: rgba(242,242,247,0.95);
+    --glass-blur: 0px;
+    --glass-saturation: 1;
+  }
+}
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 
-        .class-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid #667eea;
-        }
+/* ===== RESET ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        .subgroup-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 12px;
-        }
+html {
+  font: var(--body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
 
-        .subgroup {
-            background: rgba(102, 126, 234, 0.05);
-            border-radius: 12px;
-            padding: 12px;
-            border-left: 3px solid #667eea;
-        }
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  color: var(--text-primary);
+  overflow-x: hidden;
+  position: relative;
+}
 
-        .subgroup-label {
-            font-size: 12px;
-            font-weight: 700;
-            color: #667eea;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
+/* ===== BACKGROUND — Subtle noise texture (macOS Tahoe) ===== */
+.bg-surface {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: var(--bg-primary);
+}
 
-        .class-time {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #667eea;
-            font-weight: 700;
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
+/* Noise grain overlay via SVG turbulence */
+.bg-surface::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  pointer-events: none;
+}
 
-        .class-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: #2d3748;
-            margin-bottom: 8px;
-        }
+/* Extremely subtle warm tint — barely perceptible, like Tahoe window chrome */
+.bg-surface::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(174,174,178,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
 
-        .class-details {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
+@media (prefers-color-scheme: dark) {
+  .bg-surface::before {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+  .bg-surface::after {
+    background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.02) 0%, transparent 70%);
+  }
+}
 
-        .detail-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: #4a5568;
-        }
+/* ===== APP SHELL ===== */
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--space-16);
+  padding-top: calc(var(--safe-top) + var(--space-16));
+  padding-bottom: calc(var(--safe-bottom) + 100px); /* room for floating tab bar */
+}
 
-        .icon {
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
-        }
+/* ===== HEADER ===== */
+.header {
+  padding: var(--space-40) 0 var(--space-24);
+  animation: fadeIn 0.6s var(--spring) both;
+}
 
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-top: 8px;
-        }
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  font: var(--caption1);
+  letter-spacing: 0px;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-8);
+}
 
-        .status-badge.upcoming {
-            background: #bee3f8;
-            color: #2c5282;
-        }
+.header-badge .live-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--system-green);
+  box-shadow: 0 0 4px rgba(52,199,89,0.5);
+  animation: pulse 2.5s ease infinite;
+}
 
-        .empty-state {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 16px;
-            padding: 40px 20px;
-            text-align: center;
-            color: #718096;
-        }
+@keyframes pulse {
+  0%,100% { opacity:1; }
+  50% { opacity:0.35; }
+}
 
-        .empty-state-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-        }
+.header h1 {
+  font: var(--large-title);
+  letter-spacing: -0.4px;
+  color: var(--text-primary);
+}
 
-        @media (max-width: 480px) {
-            body {
-                padding: 12px;
-            }
+.header .subtitle {
+  font: var(--subhead);
+  letter-spacing: -0.23px;
+  color: var(--text-secondary);
+  margin-top: var(--space-4);
+}
 
-            h1 {
-                font-size: 20px;
-            }
+/* ===== FLOATING TAB BAR — Capsule (iOS 26 pattern) ===== */
+.tab-bar {
+  position: fixed;
+  bottom: calc(var(--safe-bottom) + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  gap: 2px;
+  padding: 4px;
 
-            .class-name {
-                font-size: 16px;
-            }
+  /* Liquid Glass material */
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg),
+    var(--glass-bg-thin)
+  );
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  border: 1px solid var(--glass-border);
+  border-radius: 9999px; /* capsule */
+  box-shadow:
+    0 8px 32px var(--glass-shadow-outer),
+    0 2px 8px rgba(0,0,0,0.04),
+    inset 0 1px 0 var(--glass-highlight),
+    inset 0 -0.5px 0 rgba(0,0,0,0.04);
 
-            .day-btn {
-                padding: 10px 16px;
-                font-size: 13px;
-            }
-        }
-    </style>
+  animation: slideUp 0.5s var(--spring-bounce) 0.3s both;
+}
+
+/* Glass highlight overlay */
+.tab-bar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  border-radius: 9999px 9999px 0 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.10), transparent);
+  pointer-events: none;
+}
+
+.tab-item {
+  position: relative;
+  border: none;
+  background: none;
+  padding: var(--space-8) var(--space-16);
+  border-radius: 9999px;
+  cursor: pointer;
+  font: var(--caption1);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--text-tertiary);
+  transition: all 250ms var(--spring);
+  -webkit-tap-highlight-color: transparent;
+  min-height: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.tab-item .tab-label {
+  font: var(--caption2);
+  font-weight: 600;
+  letter-spacing: 0.06px;
+  transition: color 250ms var(--spring);
+}
+
+.tab-item .tab-count {
+  font-size: 9px;
+  font-weight: 500;
+  opacity: 0.6;
+  transition: all 250ms var(--spring);
+}
+
+.tab-item:active {
+  transform: scale(0.92);
+  transition-duration: 100ms;
+}
+
+.tab-item.active {
+  background: var(--system-blue);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0,122,255,0.3);
+}
+
+.tab-item.active .tab-label { color: white; }
+.tab-item.active .tab-count { color: rgba(255,255,255,0.8); opacity: 1; }
+
+.tab-item.today::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--system-blue);
+}
+
+.tab-item.active.today::after {
+  background: white;
+}
+
+/* ===== SCHEDULE CONTENT ===== */
+.schedule {
+  animation: fadeIn 0.5s var(--spring) 0.15s both;
+}
+
+.schedule-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-16);
+}
+
+.schedule-day {
+  font: var(--title2);
+  letter-spacing: -0.26px;
+  color: var(--text-primary);
+}
+
+/* Add button — pill/capsule */
+.btn-add {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-8) var(--space-16);
+  border: none;
+  border-radius: 9999px;
+  background: var(--system-blue);
+  color: white;
+  font: var(--footnote);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 250ms var(--spring);
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 2px 8px rgba(0,122,255,0.25);
+  min-height: 36px;
+}
+
+.btn-add:active {
+  transform: scale(0.95);
+  transition-duration: 100ms;
+}
+
+.btn-add svg { width: 14px; height: 14px; }
+
+/* ===== LESSON CARDS — Liquid Glass ===== */
+.lessons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.lesson {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  gap: var(--space-12);
+  padding: var(--space-16) var(--space-16) var(--space-16) var(--space-20);
+
+  /* Liquid Glass material */
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg),
+    var(--glass-bg-thin)
+  );
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  box-shadow:
+    0 4px 24px var(--glass-shadow-outer),
+    inset 0 1px 0 var(--glass-highlight),
+    inset 0 -0.5px 0 rgba(0,0,0,0.04);
+
+  transition: transform 350ms var(--spring), box-shadow 350ms var(--spring);
+  animation: cardAppear 0.45s var(--spring) both;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Glass highlight */
+.lesson::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  border-radius: var(--glass-radius) var(--glass-radius) 0 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), transparent);
+  pointer-events: none;
+}
+
+/* Accent stripe */
+.lesson::after {
+  content: '';
+  position: absolute;
+  top: var(--space-12); left: 0;
+  width: 3px;
+  height: calc(100% - var(--space-24));
+  border-radius: 0 3px 3px 0;
+}
+
+.lesson[data-c="blue"]::after { background: var(--system-blue); }
+.lesson[data-c="purple"]::after { background: var(--system-purple); }
+.lesson[data-c="pink"]::after { background: var(--system-pink); }
+.lesson[data-c="orange"]::after { background: var(--system-orange); }
+.lesson[data-c="green"]::after { background: var(--system-green); }
+.lesson[data-c="teal"]::after { background: var(--system-teal); }
+.lesson[data-c="red"]::after { background: var(--system-red); }
+.lesson[data-c="indigo"]::after { background: var(--system-indigo); }
+.lesson[data-c="yellow"]::after { background: var(--system-yellow); }
+
+.lesson:active {
+  transform: scale(0.98);
+  transition-duration: 100ms;
+}
+
+@keyframes cardAppear {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Time block */
+.l-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  flex-shrink: 0;
+}
+
+.l-time-start {
+  font: var(--headline);
+  letter-spacing: -0.43px;
+  color: var(--text-primary);
+}
+
+.l-time-sep {
+  width: 1px; height: 8px;
+  background: var(--text-tertiary);
+  margin: 2px 0;
+  border-radius: 1px;
+}
+
+.l-time-end {
+  font: var(--caption1);
+  color: var(--text-secondary);
+}
+
+.l-pair-badge {
+  font: var(--caption2);
+  letter-spacing: 0.06px;
+  color: var(--text-tertiary);
+  background: var(--fill-quaternary);
+  padding: 2px var(--space-8);
+  border-radius: 6px;
+  margin-top: var(--space-4);
+}
+
+/* Info block */
+.l-info { flex: 1; min-width: 0; }
+
+.l-subject {
+  font: var(--headline);
+  letter-spacing: -0.43px;
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+  line-height: 1.35;
+}
+
+.l-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8) var(--space-12);
+}
+
+.l-meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font: var(--caption1);
+  color: var(--text-secondary);
+}
+
+.l-meta-item svg {
+  width: 12px; height: 12px;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+/* Link chip */
+.l-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  padding: var(--space-4) var(--space-12);
+  background: rgba(0,122,255,0.08);
+  color: var(--system-blue);
+  font: var(--caption1);
+  font-weight: 600;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: background 150ms;
+  max-width: 100%;
+}
+
+.l-link:active { background: rgba(0,122,255,0.16); }
+.l-link svg { width: 11px; height: 11px; flex-shrink: 0; }
+.l-link span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+@media (prefers-color-scheme: dark) {
+  .l-link { background: rgba(0,122,255,0.15); }
+  .l-link:active { background: rgba(0,122,255,0.25); }
+}
+
+/* Actions — always visible on mobile (no hover) */
+.l-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.l-act {
+  width: 36px; height: 36px; /* 44px tap target with padding */
+  border: none;
+  border-radius: var(--glass-radius-xs);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--fill-quaternary);
+  transition: all 150ms;
+  -webkit-tap-highlight-color: transparent;
+  padding: 0;
+}
+
+.l-act svg { width: 14px; height: 14px; }
+.l-act.edit { color: var(--system-blue); }
+.l-act.edit:active { background: rgba(0,122,255,0.15); }
+.l-act.del { color: var(--system-red); }
+.l-act.del:active { background: rgba(255,59,48,0.15); }
+
+/* ===== EMPTY STATE ===== */
+.empty {
+  text-align: center;
+  padding: var(--space-48) var(--space-24);
+  background: linear-gradient(135deg, var(--glass-bg), var(--glass-bg-thin));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  box-shadow: inset 0 1px 0 var(--glass-highlight);
+}
+
+.empty-icon { font-size: 48px; margin-bottom: var(--space-12); }
+
+.empty h3 {
+  font: var(--title3);
+  letter-spacing: -0.45px;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.empty p {
+  font: var(--footnote);
+  color: var(--text-tertiary);
+}
+
+/* ===== MODAL — Sheet (Liquid Glass) ===== */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms var(--spring);
+}
+
+.modal-bg.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  width: 100%;
+  max-width: 500px;
+  max-height: 92vh;
+  max-height: 92dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  background: linear-gradient(135deg, var(--glass-bg), var(--glass-bg-thin));
+  backdrop-filter: blur(40px) saturate(1.5) brightness(1.05);
+  -webkit-backdrop-filter: blur(40px) saturate(1.5) brightness(1.05);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--space-24) var(--space-24) 0 0;
+  padding: var(--space-24);
+  padding-bottom: calc(var(--safe-bottom) + var(--space-24));
+
+  box-shadow:
+    0 -8px 40px rgba(0,0,0,0.12),
+    inset 0 1px 0 var(--glass-highlight);
+
+  transform: translateY(100%);
+  transition: transform 400ms var(--spring-snappy);
+}
+
+.modal::-webkit-scrollbar { display: none; }
+
+.modal-bg.open .modal {
+  transform: translateY(0);
+}
+
+@media (prefers-color-scheme: dark) {
+  .modal {
+    backdrop-filter: blur(40px) saturate(1.3) brightness(0.85);
+    -webkit-backdrop-filter: blur(40px) saturate(1.3) brightness(0.85);
+  }
+}
+
+/* Modal handle */
+.modal-handle {
+  width: 36px; height: 5px;
+  border-radius: 3px;
+  background: var(--fill-primary);
+  margin: 0 auto var(--space-20);
+}
+
+.modal h2 {
+  font: var(--title2);
+  letter-spacing: -0.26px;
+  color: var(--text-primary);
+  margin-bottom: var(--space-20);
+}
+
+/* Form fields */
+.field { margin-bottom: var(--space-16); }
+
+.field-label {
+  display: block;
+  font: var(--caption1);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.field-input, .field-select {
+  width: 100%;
+  padding: var(--space-12) var(--space-16);
+  background: var(--fill-quaternary);
+  border: 1px solid transparent;
+  border-radius: var(--glass-radius-xs);
+  font: var(--body);
+  letter-spacing: -0.43px;
+  color: var(--text-primary);
+  outline: none;
+  transition: all 250ms var(--spring);
+  -webkit-appearance: none;
+  min-height: 48px;
+}
+
+.field-input::placeholder { color: var(--text-tertiary); }
+
+.field-input:focus, .field-select:focus {
+  border-color: var(--system-blue);
+  box-shadow: 0 0 0 3px rgba(0,122,255,0.12);
+  background: var(--fill-tertiary);
+}
+
+.field-hint {
+  font: var(--caption2);
+  color: var(--text-tertiary);
+  margin-top: var(--space-4);
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-12);
+}
+
+/* Color chips */
+.colors { display: flex; gap: var(--space-8); flex-wrap: wrap; }
+
+.color-chip {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all 200ms var(--spring);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.color-chip:active { transform: scale(0.9); }
+.color-chip.on { border-color: var(--text-primary); transform: scale(1.1); }
+
+.color-chip[data-c="blue"] { background: var(--system-blue); }
+.color-chip[data-c="purple"] { background: var(--system-purple); }
+.color-chip[data-c="pink"] { background: var(--system-pink); }
+.color-chip[data-c="orange"] { background: var(--system-orange); }
+.color-chip[data-c="green"] { background: var(--system-green); }
+.color-chip[data-c="teal"] { background: var(--system-teal); }
+.color-chip[data-c="red"] { background: var(--system-red); }
+.color-chip[data-c="indigo"] { background: var(--system-indigo); }
+.color-chip[data-c="yellow"] { background: var(--system-yellow); }
+
+/* Modal buttons */
+.modal-btns {
+  display: flex;
+  gap: var(--space-8);
+  margin-top: var(--space-24);
+}
+
+.mbtn {
+  flex: 1;
+  padding: var(--space-16);
+  border: none;
+  border-radius: var(--glass-radius-sm);
+  font: var(--headline);
+  letter-spacing: -0.43px;
+  cursor: pointer;
+  transition: all 250ms var(--spring);
+  -webkit-tap-highlight-color: transparent;
+  min-height: 52px;
+}
+
+.mbtn:active { transform: scale(0.97); transition-duration: 100ms; }
+
+.mbtn.cancel {
+  background: var(--fill-quaternary);
+  color: var(--text-secondary);
+}
+
+.mbtn.save {
+  background: var(--system-blue);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0,122,255,0.25);
+}
+
+.mbtn.danger {
+  background: var(--system-red);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255,59,48,0.25);
+}
+
+/* ===== CONFIRM SHEET ===== */
+.confirm-bg {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-24);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms;
+}
+
+.confirm-bg.open { opacity:1; pointer-events:all; }
+
+.confirm-box {
+  background: linear-gradient(135deg, var(--glass-bg), var(--glass-bg-thin));
+  backdrop-filter: blur(40px) saturate(1.5);
+  -webkit-backdrop-filter: blur(40px) saturate(1.5);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  padding: var(--space-24);
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.15), inset 0 1px 0 var(--glass-highlight);
+  transform: scale(0.92);
+  transition: transform 350ms var(--spring-bounce);
+}
+
+.confirm-bg.open .confirm-box { transform: scale(1); }
+
+.confirm-box h3 {
+  font: var(--title3);
+  letter-spacing: -0.45px;
+  margin-bottom: var(--space-4);
+}
+
+.confirm-box p {
+  font: var(--footnote);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-20);
+}
+
+.confirm-btns { display: flex; gap: var(--space-8); }
+.confirm-btns .mbtn { flex: 1; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(24px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📚 Розклад пар</h1>
-        </div>
 
-        <div class="days-nav">
-            <button class="day-btn active" data-day="monday">Понеділок</button>
-            <button class="day-btn" data-day="tuesday">Вівторок</button>
-            <button class="day-btn" data-day="wednesday">Середа</button>
-            <button class="day-btn" data-day="thursday">Четвер</button>
-            <button class="day-btn" data-day="friday">П'ятниця</button>
-        </div>
+<div class="bg-surface"></div>
 
-        <div id="monday" class="day-content active">
-            <div class="class-card" data-start="09:00" data-end="10:35">
-                <div class="class-time">⏰ 09:00 - 10:35 (1 пара)</div>
-                <div class="class-name">Поліграфічні технології</div>
-                <div class="class-details">
-                    <div class="detail-item">
-                        <span class="icon">📍</span>
-                        <span>Аудиторія 606</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="icon">👨‍🏫</span>
-                        <span>М. Царик</span>
-                    </div>
-                </div>
-            </div>
-            <div class="class-card" data-start="10:50" data-end="14:40">
-                <div class="class-time">⏰ 10:50 - 14:40 (2-3 пара)</div>
-                <div class="class-name">Дизайн книги</div>
-                <div class="class-details">
-                    <div class="detail-item">
-                        <span class="icon">📍</span>
-                        <span>Аудиторія 608</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="icon">👨‍🏫</span>
-                        <span>Г. Шевчук</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="tuesday" class="day-content">
-            <div class="class-card" data-start="09:00" data-end="10:35">
-                <div class="class-time">⏰ 09:00 - 10:35 (1 пара)</div>
-                <div class="subgroup-container">
-                    <div class="subgroup">
-                        <div class="subgroup-label">Підгрупа 1</div>
-                        <div class="class-name">Менеджмент мистецтва</div>
-                        <div class="class-details">
-                            <div class="detail-item">
-                                <span class="icon">📍</span>
-                                <span>Аудиторія 3</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="icon">👨‍🏫</span>
-                                <span>У. Щурко</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="subgroup">
-                        <div class="subgroup-label">Підгрупа 2</div>
-                        <div class="class-name">3D Моделювання</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="wednesday" class="day-content">
-            <div class="class-card" data-start="09:00" data-end="12:25">
-                <div class="class-time">⏰ 09:00 - 12:25 (1-2 пара)</div>
-                <div class="class-name">Моушн-дизайн</div>
-                <div class="class-details">
-                    <div class="detail-item">
-                        <span class="icon">📍</span>
-                        <span>Аудиторія 610</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="icon">👨‍🏫</span>
-                        <span>Ю. Кухлевський</span>
-                    </div>
-                </div>
-            </div>
-            <div class="class-card" data-start="13:05" data-end="16:25">
-                <div class="class-time">⏰ 13:05 - 16:25 (3-4 пара)</div>
-                <div class="subgroup-container">
-                    <div class="subgroup">
-                        <div class="subgroup-label">Підгрупа 1</div>
-                        <div class="class-name">Живопис</div>
-                        <div class="class-details">
-                            <div class="detail-item">
-                                <span class="icon">📍</span>
-                                <span>Аудиторія 604</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="icon">👨‍🏫</span>
-                                <span>Г. Новоженець</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="subgroup">
-                        <div class="subgroup-label">Підгрупа 2</div>
-                        <div class="class-name">Рисунок</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="thursday" class="day-content">
-            <div class="class-card" data-start="09:00" data-end="10:35">
-                <div class="class-time">⏰ 09:00 - 10:35 (1 пара)</div>
-                <div class="class-name">Історія культури</div>
-                <div class="class-details">
-                    <div class="detail-item">
-                        <span class="icon">💻</span>
-                        <span>Онлайн</span>
-                    </div>
-                </div>
-            </div>
-            <div class="class-card" data-start="10:50" data-end="14:40">
-                <div class="class-time">⏰ 10:50 - 14:40 (2-3 пара)</div>
-                <div class="class-name">Дизайн взаємодії</div>
-                <div class="class-details">
-                    <div class="detail-item">
-                        <span class="icon">📍</span>
-                        <span>Аудиторія 606</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="icon">👨‍🏫</span>
-                        <span>М. Білий, Д. Козицький</span>
-                    </div>
-                </div>
-            </div>
-            <div class="class-card" data-start="16:35" data-end="18:10">
-                <div class="class-time">⏰ 16:35 - 18:10 (5 пара)</div>
-                <div class="class-name">Англійська мова</div>
-                <div class="class-details">
-                    <div class="detail-item">
-                        <span class="icon">📍</span>
-                        <span>В гуртожитку</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="friday" class="day-content">
-            <div class="class-card" data-start="09:00" data-end="10:35">
-                <div class="class-time">⏰ 09:00 - 10:35 (1 пара)</div>
-                <div class="class-name">Поліграфічні технології</div>
-                <div class="class-details">
-                    <div class="detail-item">
-                        <span class="icon">📍</span>
-                        <span>Аудиторія 606</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="icon">👨‍🏫</span>
-                        <span>М. Царик</span>
-                    </div>
-                </div>
-            </div>
-            <div class="class-card" data-start="10:50" data-end="14:40">
-                <div class="class-time">⏰ 10:50 - 14:40 (2-3 пара)</div>
-                <div class="class-name">Проектування</div>
-                <div class="class-details">
-                    <div class="detail-item">
-                        <span class="icon">📍</span>
-                        <span>Аудиторія 606</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="icon">👨‍🏫</span>
-                        <span>О. Топольницький</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="app">
+  <header class="header">
+    <div class="header-badge">
+      <span class="live-dot"></span>
+      ІІ семестр · 2025/26
     </div>
+    <h1>Група 32</h1>
+    <p class="subtitle">Графічний дизайн · III курс · ЛНАМ</p>
+  </header>
 
-    <script>
-        const dayBtns = document.querySelectorAll('.day-btn');
-        const dayContents = document.querySelectorAll('.day-content');
-        
-        dayBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const day = btn.dataset.day;
-                
-                dayBtns.forEach(b => b.classList.remove('active'));
-                dayContents.forEach(c => c.classList.remove('active'));
-                
-                btn.classList.add('active');
-                document.getElementById(day).classList.add('active');
-            });
-        });
+  <section class="schedule" id="schedule"></section>
+</div>
 
-        const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-        const today = dayNames[new Date().getDay()];
-        const todayBtn = document.querySelector(`[data-day="${today}"]`);
-        if (todayBtn) todayBtn.click();
-    </script>
+<!-- Floating Tab Bar -->
+<nav class="tab-bar" id="tabBar"></nav>
+
+<!-- Modal -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2 id="modalTitle">Додати пару</h2>
+    <div class="field">
+      <label class="field-label">Предмет</label>
+      <input class="field-input" id="fSubject" placeholder="Назва предмету">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Пара</label>
+        <select class="field-select" id="fPair">
+          <option value="1">1 · 9:00</option>
+          <option value="2">2 · 10:50</option>
+          <option value="3">3 · 13:05</option>
+          <option value="4">4 · 14:50</option>
+          <option value="5">5 · 16:35</option>
+          <option value="6">6 · 18:20</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Тип</label>
+        <select class="field-select" id="fType">
+          <option value="Лекція">Лекція</option>
+          <option value="Практична">Практична</option>
+          <option value="Лабораторна">Лабораторна</option>
+          <option value="Семінар">Семінар</option>
+          <option value="Інд. проєкт">Інд. проєкт</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Викладач</label>
+      <input class="field-input" id="fTeacher" placeholder="Прізвище та ініціали">
+    </div>
+    <div class="field">
+      <label class="field-label">Аудиторія</label>
+      <input class="field-input" id="fRoom" placeholder="Номер або назва">
+    </div>
+    <div class="field">
+      <label class="field-label">Посилання</label>
+      <input class="field-input" id="fLink" type="url" placeholder="https://meet.google.com/...">
+      <div class="field-hint">Zoom, Meet, Moodle — необов'язково</div>
+    </div>
+    <div class="field">
+      <label class="field-label">Колір</label>
+      <div class="colors" id="colorPicker">
+        <div class="color-chip" data-c="blue"></div>
+        <div class="color-chip" data-c="purple"></div>
+        <div class="color-chip" data-c="pink"></div>
+        <div class="color-chip" data-c="orange"></div>
+        <div class="color-chip" data-c="green"></div>
+        <div class="color-chip" data-c="teal"></div>
+        <div class="color-chip" data-c="red"></div>
+        <div class="color-chip" data-c="indigo"></div>
+        <div class="color-chip" data-c="yellow"></div>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="mbtn cancel" onclick="closeModal()">Скасувати</button>
+      <button class="mbtn save" onclick="saveLesson()">Зберегти</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm -->
+<div class="confirm-bg" id="confirmBg">
+  <div class="confirm-box">
+    <h3>Видалити?</h3>
+    <p id="confirmText"></p>
+    <div class="confirm-btns">
+      <button class="mbtn cancel" onclick="closeConfirm()">Ні</button>
+      <button class="mbtn danger" onclick="doDelete()">Видалити</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   SCHEDULE APP — Group 32, ЛНАМ
+   ============================================================ */
+
+const T = {
+  1:{s:'9:00',e:'10:35'}, 2:{s:'10:50',e:'12:25'},
+  3:{s:'13:05',e:'14:40'}, 4:{s:'14:50',e:'16:25'},
+  5:{s:'16:35',e:'18:10'}, 6:{s:'18:20',e:'19:55'}
+};
+
+const DAYS = [
+  {k:'mon',n:'ПН',f:'Понеділок',d:1},
+  {k:'tue',n:'ВТ',f:'Вівторок',d:2},
+  {k:'wed',n:'СР',f:'Середа',d:3},
+  {k:'thu',n:'ЧТ',f:'Четвер',d:4},
+  {k:'fri',n:'ПТ',f:"П\u2019ятниця",d:5}
+];
+
+const INIT = {
+  mon:[
+    {id:1,pair:1,subject:'Інформаційний дизайн',teacher:'',room:'Онлайн',type:'Лекція',color:'teal',link:''},
+    {id:2,pair:3,subject:'Дизайн книги',teacher:'Г. Шевчук',room:'608',type:'Практична',color:'purple',link:''},
+    {id:3,pair:4,subject:'Дизайн книги',teacher:'Г. Шевчук',room:'608',type:'Практична',color:'purple',link:''},
+    {id:4,pair:5,subject:'Дизайн книги',teacher:'Г. Шевчук',room:'608',type:'Практична',color:'purple',link:''}
+  ],
+  tue:[
+    {id:5,pair:2,subject:'Проектування',teacher:'О. Топольницький',room:'606',type:'Практична',color:'yellow',link:''},
+    {id:6,pair:3,subject:'Проектування',teacher:'О. Топольницький',room:'606',type:'Практична',color:'yellow',link:''}
+  ],
+  wed:[
+    {id:7,pair:1,subject:'Ілюстрація',teacher:'Т. Загачевська',room:'10',type:'Практична',color:'pink',link:''},
+    {id:8,pair:2,subject:'Ілюстрація',teacher:'Т. Загачевська',room:'10',type:'Практична',color:'pink',link:''},
+    {id:9,pair:5,subject:'Рисунок',teacher:'І. Онуфрик',room:'602',type:'Практична',color:'red',link:''},
+    {id:10,pair:6,subject:'Рисунок',teacher:'І. Онуфрик',room:'602',type:'Практична',color:'red',link:''}
+  ],
+  thu:[
+    {id:11,pair:2,subject:'Дизайн взаємодії',teacher:'Д. Козицький',room:'606',type:'Практична',color:'indigo',link:''},
+    {id:12,pair:3,subject:'Дизайн взаємодії',teacher:'Д. Козицький',room:'606',type:'Практична',color:'indigo',link:''},
+    {id:13,pair:5,subject:'Іноземна мова',teacher:'',room:'Гуртож.',type:'Практична',color:'green',link:''}
+  ],
+  fri:[]
+};
+
+const KEY = 'lnam_32_v4';
+let data = JSON.parse(localStorage.getItem(KEY)||'null') || JSON.parse(JSON.stringify(INIT));
+let day = todayKey();
+let editId = null, delId = null, delDay = null, nid = 300;
+
+const ic = {
+  person:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+  loc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+  tag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>',
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
+  del:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+  ext:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
+};
+
+function save(){ localStorage.setItem(KEY, JSON.stringify(data)); }
+
+function todayKey(){
+  return {1:'mon',2:'tue',3:'wed',4:'thu',5:'fri'}[new Date().getDay()]||'mon';
+}
+
+function pLabel(url){
+  try {
+    const h = new URL(url).hostname.replace('www.','');
+    if(h.includes('meet.google')) return 'Google Meet';
+    if(h.includes('zoom')) return 'Zoom';
+    if(h.includes('teams')) return 'MS Teams';
+    if(h.includes('moodle')||h.includes('lms')) return 'Moodle';
+    if(h.includes('classroom')) return 'Classroom';
+    return h;
+  } catch { return 'Посилання'; }
+}
+
+function pl(n){
+  if(n===1) return 'пара';
+  if(n>=2&&n<=4) return 'пари';
+  return 'пар';
+}
+
+/* ===== RENDER ===== */
+function renderTabs(){
+  const tk = todayKey();
+  document.getElementById('tabBar').innerHTML = DAYS.map(d => {
+    const c = (data[d.k]||[]).length;
+    const cls = [
+      'tab-item',
+      d.k===day?'active':'',
+      d.k===tk?'today':''
+    ].filter(Boolean).join(' ');
+    return `<button class="${cls}" onclick="go('${d.k}')">
+      <span class="tab-label">${d.n}</span>
+      <span class="tab-count">${c}</span>
+    </button>`;
+  }).join('');
+}
+
+function render(){
+  const D = DAYS.find(d=>d.k===day);
+  const L = (data[day]||[]).sort((a,b)=>a.pair-b.pair);
+  const el = document.getElementById('schedule');
+
+  let h = `<div class="schedule-header">
+    <span class="schedule-day">${D.f}</span>
+    <button class="btn-add" onclick="openAdd()">${ic.plus} Додати</button>
+  </div>`;
+
+  if(!L.length){
+    h += `<div class="empty"><div class="empty-icon">☀️</div><h3>Вільний день</h3><p>Натисніть «Додати» для створення пари</p></div>`;
+  } else {
+    h += '<div class="lessons">';
+    L.forEach((l,i) => {
+      const t = T[l.pair];
+      const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+      const link = l.link ? `<a class="l-link" href="${esc(l.link)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${ic.ext}<span>${pLabel(l.link)}</span></a>` : '';
+
+      h += `<div class="lesson" data-c="${l.color}" style="animation-delay:${i*50}ms">
+        <div class="l-time">
+          <span class="l-time-start">${t.s}</span>
+          <div class="l-time-sep"></div>
+          <span class="l-time-end">${t.e}</span>
+          <span class="l-pair-badge">${l.pair} пара</span>
+        </div>
+        <div class="l-info">
+          <div class="l-subject">${esc(l.subject)}</div>
+          <div class="l-meta">
+            ${l.teacher?`<span class="l-meta-item">${ic.person} ${esc(l.teacher)}</span>`:''}
+            ${l.room?`<span class="l-meta-item">${ic.loc} ${esc(l.room)}</span>`:''}
+            ${l.type?`<span class="l-meta-item">${ic.tag} ${esc(l.type)}</span>`:''}
+          </div>
+          ${link}
+        </div>
+        <div class="l-actions">
+          <button class="l-act edit" onclick="openEdit('${day}',${l.id})">${ic.edit}</button>
+          <button class="l-act del" onclick="askDel('${day}',${l.id},'${esc(l.subject)}')">${ic.del}</button>
+        </div>
+      </div>`;
+    });
+    h += '</div>';
+  }
+  el.innerHTML = h;
+}
+
+function go(k){ day=k; renderTabs(); render(); }
+
+/* ===== MODAL ===== */
+const $=id=>document.getElementById(id);
+
+function selColor(c){
+  document.querySelectorAll('.color-chip').forEach(e=>e.classList.toggle('on',e.dataset.c===c));
+}
+
+$('colorPicker').addEventListener('click',e=>{
+  const ch=e.target.closest('.color-chip');
+  if(ch) selColor(ch.dataset.c);
+});
+
+function openAdd(){
+  editId=null;
+  $('modalTitle').textContent='Додати пару';
+  $('fSubject').value='';
+  $('fPair').value='1';
+  $('fType').value='Практична';
+  $('fTeacher').value='';
+  $('fRoom').value='';
+  $('fLink').value='';
+  selColor('blue');
+  $('modalBg').classList.add('open');
+  setTimeout(()=>$('fSubject').focus(),350);
+}
+
+function openEdit(d,id){
+  const l=data[d].find(x=>x.id===id);
+  if(!l) return;
+  editId=id;
+  $('modalTitle').textContent='Редагувати';
+  $('fSubject').value=l.subject;
+  $('fPair').value=l.pair;
+  $('fType').value=l.type;
+  $('fTeacher').value=l.teacher;
+  $('fRoom').value=l.room;
+  $('fLink').value=l.link||'';
+  selColor(l.color);
+  $('modalBg').classList.add('open');
+}
+
+function closeModal(){ $('modalBg').classList.remove('open'); editId=null; }
+
+function saveLesson(){
+  const subj=$('fSubject').value.trim();
+  if(!subj){
+    $('fSubject').style.borderColor='var(--system-red)';
+    $('fSubject').focus();
+    setTimeout(()=>$('fSubject').style.borderColor='',1500);
+    return;
+  }
+  const o = {
+    subject: subj,
+    pair: +$('fPair').value,
+    type: $('fType').value,
+    teacher: $('fTeacher').value.trim(),
+    room: $('fRoom').value.trim(),
+    link: $('fLink').value.trim(),
+    color: document.querySelector('.color-chip.on')?.dataset.c||'blue'
+  };
+  if(editId!==null){
+    const l=data[day].find(x=>x.id===editId);
+    if(l) Object.assign(l,o);
+  } else {
+    data[day]=data[day]||[];
+    data[day].push({id:nid++,...o});
+  }
+  save(); closeModal(); renderTabs(); render();
+}
+
+/* ===== DELETE ===== */
+function askDel(d,id,s){
+  delId=id; delDay=d;
+  $('confirmText').textContent=`«${s}» буде видалено.`;
+  $('confirmBg').classList.add('open');
+}
+
+function closeConfirm(){ $('confirmBg').classList.remove('open'); delId=null; delDay=null; }
+
+function doDelete(){
+  if(delDay&&delId!==null){
+    data[delDay]=data[delDay].filter(x=>x.id!==delId);
+    save();
+  }
+  closeConfirm(); renderTabs(); render();
+}
+
+/* ===== EVENTS ===== */
+$('modalBg').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal(); });
+$('confirmBg').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeConfirm(); });
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){ closeModal(); closeConfirm(); }
+});
+
+/* ===== INIT ===== */
+renderTabs();
+render();
+</script>
 </body>
 </html>
