@@ -8,8 +8,8 @@
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
 <title>Розклад — Група 32</title>
-<link rel="icon" type="image/png" href="https://i.ibb.co/chcZT8wJ/2026-02-18-13-58-00.png">
-<link rel="apple-touch-icon" href="https://i.ibb.co/chcZT8wJ/2026-02-18-13-58-00.png">
+<link rel="icon" type="image/jpeg" href="https://i.ibb.co/V0H0gMvz/LNAA-Logo-UKR.jpg">
+<link rel="apple-touch-icon" href="https://i.ibb.co/V0H0gMvz/LNAA-Logo-UKR.jpg">
 <style>
 /* ===================================================================
    APPLE LIQUID GLASS DESIGN SYSTEM
@@ -172,84 +172,40 @@ body {
   position: relative;
 }
 
-/* ===== BACKGROUND — Gradient Mesh (optimized for Liquid Glass) ===== */
+/* ===== BACKGROUND — Subtle noise texture (macOS Tahoe) ===== */
 .bg-surface {
   position: fixed;
   inset: 0;
   z-index: 0;
-  contain: paint layout;
-
-  /* LIGHT MODE — "Soft Cloud" palette (education/calendar) */
-  background:
-    radial-gradient(circle at center, hsla(220, 70%, 80%, 0.8) 0px, transparent 70%),
-    radial-gradient(circle at center, hsla(280, 50%, 85%, 0.6) 0px, transparent 70%),
-    radial-gradient(circle at center, hsla(200, 60%, 82%, 0.7) 0px, transparent 70%),
-    radial-gradient(circle at center, hsla(320, 40%, 88%, 0.5) 0px, transparent 70%),
-    radial-gradient(circle at center, hsla(250, 45%, 83%, 0.4) 0px, transparent 70%),
-    linear-gradient(135deg, #f0f2f8 0%, #e8ecf4 50%, #f2f0f6 100%);
-
-  background-size:
-    80% 80%, 70% 70%, 60% 60%, 90% 90%, 75% 75%, 100% 100%;
-  background-position:
-    15% 20%, 75% 15%, 60% 75%, 30% 55%, 85% 50%, center;
-  background-repeat: no-repeat;
-
-  will-change: background-position;
-  animation: meshDrift 30s ease-in-out infinite alternate;
+  background: var(--bg-primary);
 }
 
-/* Grain overlay — anti-banding texture */
+/* Noise grain overlay via SVG turbulence */
 .bg-surface::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.03;
-  mix-blend-mode: overlay;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-repeat: repeat;
   pointer-events: none;
-  z-index: 1;
 }
 
-/* Subtle vignette */
+/* Extremely subtle warm tint — barely perceptible, like Tahoe window chrome */
 .bg-surface::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.06) 100%);
+  background: radial-gradient(ellipse at 50% 0%, rgba(174,174,178,0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
-@keyframes meshDrift {
-  0% {
-    background-position:
-      15% 20%, 75% 15%, 60% 75%, 30% 55%, 85% 50%, center;
-  }
-  100% {
-    background-position:
-      25% 35%, 65% 25%, 50% 65%, 40% 45%, 75% 60%, center;
-  }
-}
-
-/* DARK MODE — same hues, deeper saturation, dark base */
 @media (prefers-color-scheme: dark) {
-  .bg-surface {
-    background:
-      radial-gradient(circle at center, hsla(220, 75%, 55%, 0.6) 0px, transparent 70%),
-      radial-gradient(circle at center, hsla(280, 65%, 50%, 0.5) 0px, transparent 70%),
-      radial-gradient(circle at center, hsla(200, 70%, 48%, 0.5) 0px, transparent 70%),
-      radial-gradient(circle at center, hsla(320, 55%, 45%, 0.4) 0px, transparent 70%),
-      radial-gradient(circle at center, hsla(250, 55%, 40%, 0.3) 0px, transparent 70%),
-      linear-gradient(135deg, #0a0a1a 0%, #121228 50%, #0d0d20 100%);
-
-    background-size:
-      80% 80%, 70% 70%, 60% 60%, 90% 90%, 75% 75%, 100% 100%;
-    background-position:
-      15% 20%, 75% 15%, 60% 75%, 30% 55%, 85% 50%, center;
-    background-repeat: no-repeat;
+  .bg-surface::before {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    background-repeat: repeat;
   }
-
   .bg-surface::after {
-    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.25) 100%);
+    background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.02) 0%, transparent 70%);
   }
 }
 
