@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
 <title>Розклад — Група 32</title>
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
@@ -65,10 +65,21 @@
   --system-teal: #5AC8FA;
   --system-yellow: #FFCC00;
 
-  /* Spring easing */
-  --spring: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Spring easing — Apple WWDC25 animation system */
+  --spring-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   --spring-snappy: cubic-bezier(0.2, 0, 0, 1);
+  --spring-interactive: cubic-bezier(0.25, 1.25, 0.5, 1);
+  --spring-gentle: cubic-bezier(0.4, 0, 0.1, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+
+  /* Duration tokens */
+  --dur-instant: 100ms;
+  --dur-fast: 150ms;
+  --dur-normal: 250ms;
+  --dur-smooth: 350ms;
+  --dur-slow: 500ms;
+  --dur-dramatic: 700ms;
 
   /* Spacing — 8pt grid */
   --space-4: 4px;
@@ -130,8 +141,15 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  /* Replace slide/scale with simple fade */
+  .modal { transform: none !important; opacity: 0; transition: opacity 150ms !important; }
+  .modal-bg.open .modal { opacity: 1; }
+  .confirm-box { transform: none !important; }
+  .lesson { animation: none !important; }
+  .glass-shimmer::before { animation: none !important; opacity: 0.03; }
 }
 
 /* ===== RESET ===== */
@@ -204,7 +222,7 @@ body {
 /* ===== HEADER ===== */
 .header {
   padding: var(--space-40) 0 var(--space-24);
-  animation: fadeIn 0.6s var(--spring) both;
+  animation: headerMaterialize 600ms var(--spring-gentle) both;
 }
 
 .header-badge {
@@ -270,7 +288,20 @@ body {
     inset 0 1px 0 var(--glass-highlight),
     inset 0 -0.5px 0 rgba(0,0,0,0.04);
 
-  animation: slideUp 0.5s var(--spring-bounce) 0.3s both;
+  animation: tabBarMaterialize 500ms var(--spring-bounce) 0.3s both;
+
+  /* Scroll collapse morph */
+  transition:
+    transform 400ms var(--spring-smooth),
+    padding 400ms var(--spring-smooth),
+    opacity 300ms;
+}
+
+/* Collapsed state on scroll */
+.tab-bar.collapsed {
+  padding: 3px;
+  transform: translateX(-50%) scale(0.88);
+  opacity: 0.92;
 }
 
 /* Glass highlight overlay */
@@ -295,7 +326,7 @@ body {
   font-weight: 600;
   letter-spacing: 0.3px;
   color: var(--text-tertiary);
-  transition: all 250ms var(--spring);
+  transition: all var(--dur-normal) var(--spring-smooth);
   -webkit-tap-highlight-color: transparent;
   min-height: 36px;
   display: flex;
@@ -308,19 +339,20 @@ body {
   font: var(--caption2);
   font-weight: 600;
   letter-spacing: 0.06px;
-  transition: color 250ms var(--spring);
+  transition: color var(--dur-normal) var(--spring-smooth);
 }
 
 .tab-item .tab-count {
   font-size: 9px;
   font-weight: 500;
   opacity: 0.6;
-  transition: all 250ms var(--spring);
+  transition: all var(--dur-normal) var(--spring-smooth);
 }
 
 .tab-item:active {
   transform: scale(0.92);
-  transition-duration: 100ms;
+  transition-duration: var(--dur-instant);
+  transition-timing-function: var(--spring-snappy);
 }
 
 .tab-item.active {
@@ -347,7 +379,7 @@ body {
 
 /* ===== SCHEDULE CONTENT ===== */
 .schedule {
-  animation: fadeIn 0.5s var(--spring) 0.15s both;
+  animation: sectionMaterialize 500ms var(--spring-gentle) 0.15s both;
 }
 
 .schedule-header {
@@ -376,15 +408,17 @@ body {
   font: var(--footnote);
   font-weight: 600;
   cursor: pointer;
-  transition: all 250ms var(--spring);
+  transition: all var(--dur-normal) var(--spring-smooth);
   -webkit-tap-highlight-color: transparent;
   box-shadow: 0 2px 8px rgba(0,122,255,0.25);
   min-height: 36px;
+  will-change: transform;
 }
 
 .btn-add:active {
   transform: scale(0.95);
-  transition-duration: 100ms;
+  transition-duration: var(--dur-instant);
+  transition-timing-function: var(--spring-snappy);
 }
 
 .btn-add svg { width: 14px; height: 14px; }
@@ -418,9 +452,12 @@ body {
     inset 0 1px 0 var(--glass-highlight),
     inset 0 -0.5px 0 rgba(0,0,0,0.04);
 
-  transition: transform 350ms var(--spring), box-shadow 350ms var(--spring);
-  animation: cardAppear 0.45s var(--spring) both;
+  transition: transform var(--dur-normal) var(--spring-smooth),
+    box-shadow var(--dur-normal) var(--spring-smooth);
+  animation: cardMaterialize 450ms var(--spring-bounce) both;
+  animation-delay: calc(var(--stagger, 0) * 50ms);
   -webkit-tap-highlight-color: transparent;
+  will-change: transform;
 }
 
 /* Glass highlight */
@@ -433,6 +470,23 @@ body {
   background: linear-gradient(180deg, rgba(255,255,255,0.08), transparent);
   pointer-events: none;
 }
+
+/* Touch illumination overlay */
+.lesson .l-illumination {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--touch-x, 50%) var(--touch-y, 50%),
+    rgba(255,255,255,0.12) 0%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity var(--dur-fast);
+  pointer-events: none;
+}
+
+.lesson.touching .l-illumination { opacity: 1; }
 
 /* Accent stripe */
 .lesson::after {
@@ -455,13 +509,36 @@ body {
 .lesson[data-c="yellow"]::after { background: var(--system-yellow); }
 
 .lesson:active {
-  transform: scale(0.98);
-  transition-duration: 100ms;
+  transform: scale(0.97);
+  transition-duration: var(--dur-instant);
+  transition-timing-function: var(--spring-snappy);
 }
 
-@keyframes cardAppear {
-  from { opacity: 0; transform: translateY(12px) scale(0.97); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+/* Desktop hover — gentle lift */
+@media (hover: hover) {
+  .lesson:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow:
+      0 12px 40px rgba(0,0,0,0.10),
+      0 4px 12px rgba(0,0,0,0.06),
+      inset 0 1px 0 var(--glass-highlight);
+  }
+}
+
+@keyframes cardMaterialize {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+    backdrop-filter: blur(0px) saturate(1);
+  }
+  60% {
+    backdrop-filter: blur(12px) saturate(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  }
 }
 
 /* Time block */
@@ -577,10 +654,13 @@ body {
   align-items: center;
   justify-content: center;
   background: var(--fill-quaternary);
-  transition: all 150ms;
+  transition: all var(--dur-fast);
   -webkit-tap-highlight-color: transparent;
   padding: 0;
+  will-change: transform;
 }
+
+.l-act:active { transform: scale(0.88); transition-duration: var(--dur-instant); }
 
 .l-act svg { width: 14px; height: 14px; }
 .l-act.edit { color: var(--system-blue); }
@@ -598,6 +678,29 @@ body {
   border: 1px solid var(--glass-border);
   border-radius: var(--glass-radius);
   box-shadow: inset 0 1px 0 var(--glass-highlight);
+  position: relative;
+  overflow: hidden;
+  animation: cardMaterialize 450ms var(--spring-bounce) both;
+}
+
+/* Ambient specular shimmer on empty card */
+.empty::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    110deg,
+    transparent 0%, transparent 40%,
+    rgba(255,255,255,0.06) 45%,
+    rgba(255,255,255,0.12) 50%,
+    rgba(255,255,255,0.06) 55%,
+    transparent 60%, transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: glassShimmer 3s ease-in-out infinite;
+  pointer-events: none;
+  mix-blend-mode: overlay;
 }
 
 .empty-icon { font-size: 48px; margin-bottom: var(--space-12); }
@@ -619,20 +722,25 @@ body {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.25);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
   z-index: 200;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 300ms var(--spring);
+  transition:
+    opacity 300ms var(--spring-smooth),
+    backdrop-filter 300ms var(--spring-smooth),
+    -webkit-backdrop-filter 300ms var(--spring-smooth);
 }
 
 .modal-bg.open {
   opacity: 1;
   pointer-events: all;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .modal {
@@ -712,7 +820,7 @@ body {
   letter-spacing: -0.43px;
   color: var(--text-primary);
   outline: none;
-  transition: all 250ms var(--spring);
+  transition: all var(--dur-normal) var(--spring-smooth);
   -webkit-appearance: none;
   min-height: 48px;
 }
@@ -745,12 +853,12 @@ body {
   border-radius: 50%;
   border: 3px solid transparent;
   cursor: pointer;
-  transition: all 200ms var(--spring);
+  transition: all 200ms var(--spring-smooth);
   -webkit-tap-highlight-color: transparent;
 }
 
-.color-chip:active { transform: scale(0.9); }
-.color-chip.on { border-color: var(--text-primary); transform: scale(1.1); }
+.color-chip:active { transform: scale(0.9); transition-duration: var(--dur-instant); }
+.color-chip.on { border-color: var(--text-primary); transform: scale(1.15); }
 
 .color-chip[data-c="blue"] { background: var(--system-blue); }
 .color-chip[data-c="purple"] { background: var(--system-purple); }
@@ -777,12 +885,13 @@ body {
   font: var(--headline);
   letter-spacing: -0.43px;
   cursor: pointer;
-  transition: all 250ms var(--spring);
+  transition: all var(--dur-normal) var(--spring-smooth);
   -webkit-tap-highlight-color: transparent;
   min-height: 52px;
+  will-change: transform;
 }
 
-.mbtn:active { transform: scale(0.97); transition-duration: 100ms; }
+.mbtn:active { transform: scale(0.97); transition-duration: var(--dur-instant); transition-timing-function: var(--spring-snappy); }
 
 .mbtn.cancel {
   background: var(--fill-quaternary);
@@ -805,8 +914,8 @@ body {
 .confirm-bg {
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.25);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
   z-index: 300;
   display: flex;
   align-items: center;
@@ -814,10 +923,18 @@ body {
   padding: var(--space-24);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 250ms;
+  transition:
+    opacity var(--dur-normal),
+    backdrop-filter var(--dur-normal),
+    -webkit-backdrop-filter var(--dur-normal);
 }
 
-.confirm-bg.open { opacity:1; pointer-events:all; }
+.confirm-bg.open {
+  opacity: 1;
+  pointer-events: all;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
 
 .confirm-box {
   background: linear-gradient(135deg, var(--glass-bg), var(--glass-bg-thin));
@@ -830,11 +947,14 @@ body {
   width: 100%;
   text-align: center;
   box-shadow: 0 24px 64px rgba(0,0,0,0.15), inset 0 1px 0 var(--glass-highlight);
-  transform: scale(0.92);
-  transition: transform 350ms var(--spring-bounce);
+  transform: scale(0.88);
+  opacity: 0;
+  transition:
+    transform var(--dur-smooth) var(--spring-bounce),
+    opacity 200ms ease-out;
 }
 
-.confirm-bg.open .confirm-box { transform: scale(1); }
+.confirm-bg.open .confirm-box { transform: scale(1); opacity: 1; }
 
 .confirm-box h3 {
   font: var(--title3);
@@ -851,15 +971,47 @@ body {
 .confirm-btns { display: flex; gap: var(--space-8); }
 .confirm-btns .mbtn { flex: 1; }
 
-/* ===== ANIMATIONS ===== */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+/* ===== APPLE LIQUID GLASS KEYFRAMES ===== */
+
+/* Header materialization */
+@keyframes headerMaterialize {
+  0% { opacity: 0; transform: translateY(-8px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateX(-50%) translateY(24px); }
-  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+/* Section materialization */
+@keyframes sectionMaterialize {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Tab bar materialization from bottom */
+@keyframes tabBarMaterialize {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(24px) scale(0.92);
+    backdrop-filter: blur(0px) saturate(1);
+  }
+  50% {
+    backdrop-filter: blur(10px) saturate(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  }
+}
+
+/* Specular shimmer — slow ambient */
+@keyframes glassShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Live dot pulse */
+@keyframes pulse {
+  0%,100% { opacity:1; transform: scale(1); }
+  50% { opacity:0.35; transform: scale(0.85); }
 }
 </style>
 </head>
@@ -1005,7 +1157,7 @@ const INIT = {
   fri:[]
 };
 
-const KEY = 'lnam_32_v4';
+const KEY = 'lnam_32_v5';
 let data = JSON.parse(localStorage.getItem(KEY)||'null') || JSON.parse(JSON.stringify(INIT));
 let day = todayKey();
 let editId = null, delId = null, delDay = null, nid = 300;
@@ -1080,7 +1232,8 @@ function render(){
       const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/'/g,'&#39;').replace(/"/g,'&quot;');
       const link = l.link ? `<a class="l-link" href="${esc(l.link)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${ic.ext}<span>${pLabel(l.link)}</span></a>` : '';
 
-      h += `<div class="lesson" data-c="${l.color}" style="animation-delay:${i*50}ms">
+      h += `<div class="lesson" data-c="${l.color}" data-id="${l.id}" style="--stagger:${i}">
+        <div class="l-illumination"></div>
         <div class="l-time">
           <span class="l-time-start">${t.s}</span>
           <div class="l-time-sep"></div>
@@ -1202,6 +1355,66 @@ $('confirmBg').addEventListener('click',e=>{ if(e.target===e.currentTarget) clos
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){ closeModal(); closeConfirm(); }
 });
+
+/* ===== TOUCH ILLUMINATION ===== */
+document.addEventListener('pointerdown', e => {
+  const card = e.target.closest('.lesson');
+  if (!card) return;
+  const r = card.getBoundingClientRect();
+  card.style.setProperty('--touch-x', ((e.clientX - r.left) / r.width * 100) + '%');
+  card.style.setProperty('--touch-y', ((e.clientY - r.top) / r.height * 100) + '%');
+  card.classList.add('touching');
+});
+
+document.addEventListener('pointerup', () => {
+  document.querySelectorAll('.lesson.touching').forEach(c => c.classList.remove('touching'));
+});
+
+document.addEventListener('pointercancel', () => {
+  document.querySelectorAll('.lesson.touching').forEach(c => c.classList.remove('touching'));
+});
+
+/* ===== SCROLL → TAB BAR COLLAPSE ===== */
+let lastScroll = 0;
+let scrollDir = 0; // 1 = down, -1 = up
+const tabBar = $('tabBar');
+
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  if (y > lastScroll + 4) { scrollDir = 1; }
+  else if (y < lastScroll - 4) { scrollDir = -1; }
+  lastScroll = y;
+
+  if (scrollDir === 1 && y > 80) {
+    tabBar.classList.add('collapsed');
+  } else {
+    tabBar.classList.remove('collapsed');
+  }
+}, { passive: true });
+
+/* ===== APP CONTENT BEHIND SHEET ===== */
+const appEl = document.querySelector('.app');
+
+function sheetOpen() {
+  appEl.style.transition = 'transform 400ms cubic-bezier(0.4,0,0.2,1), border-radius 400ms cubic-bezier(0.4,0,0.2,1)';
+  appEl.style.transform = 'scale(0.94) translateY(-12px)';
+  appEl.style.borderRadius = '16px';
+  appEl.style.overflow = 'hidden';
+}
+
+function sheetClose() {
+  appEl.style.transform = '';
+  appEl.style.borderRadius = '';
+  setTimeout(() => { appEl.style.overflow = ''; }, 400);
+}
+
+// Patch modal open/close
+const _openAdd = openAdd;
+openAdd = function() { _openAdd(); sheetOpen(); };
+const _openEdit = openEdit;
+openEdit = function(d,id) { _openEdit(d,id); sheetOpen(); };
+const _closeModal = closeModal;
+closeModal = function() { _closeModal(); sheetClose(); };
 
 /* ===== INIT ===== */
 renderTabs();
